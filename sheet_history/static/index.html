@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sheet History</title>
+<link rel="stylesheet" href="/static/app.css">
+<link rel="icon" href="data:,">
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="bar">
+  <h1 class="brand">Sheet History</h1>
+  <div class="title-field">
+    <label for="sheet-title">Sheet title</label>
+    <input id="sheet-title" type="text" maxlength="80" autocomplete="off" disabled>
+  </div>
+  <div class="actions">
+    <button id="load-sample-btn" type="button" disabled>Load sample</button>
+    <button id="new-btn" type="button">New sheet</button>
+    <button id="save-btn" type="button" class="primary" disabled>Save</button>
+  </div>
+</header>
+
+<div class="notices">
+  <p id="status" role="status" aria-live="polite"></p>
+  <div id="conflict" role="alert" hidden>
+    <p id="conflict-text"></p>
+    <div class="actions">
+      <button id="conflict-reload" type="button">Load server version</button>
+      <button id="conflict-retry" type="button" class="primary">Keep my edits and retry</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="side" aria-label="Sheets">
+    <h2>Sheets</h2>
+    <ul id="project-list"></ul>
+    <p id="empty-state" hidden>No sheets yet. Choose "New sheet" to start.</p>
+  </nav>
+  <main class="main">
+    <div id="grid-wrap" class="grid-wrap" role="region" aria-label="Grid" tabindex="0">
+      <table id="grid">
+        <caption>Cells A1 to F8. Arrow keys move between cells; Ctrl+S saves.</caption>
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>
