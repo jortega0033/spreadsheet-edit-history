@@ -24,7 +24,7 @@ vibe: Makes developers write secure code without even realizing it.
 - Nothing typed, imported or merged reaches `eval`, `exec`, `compile` or a dynamic import; evaluator output is bounded (docs/architecture.md "Notes for the epic").
 - User text is written with `textContent` or `.value`, never `innerHTML`.
 
-**Does not apply.** SAST and DAST pipelines, Semgrep, CodeQL and the dependency scanner below (no dependencies, no CI), JWT and OAuth (no sign-in), AWS, rate limiting. Here: read the source.
+**Does not apply.** SAST and DAST pipelines, Semgrep, CodeQL and the dependency scanner below (no dependencies; the CI workflow only runs the tests and the hook self-test), JWT and OAuth (no sign-in), AWS, rate limiting. Here: read the source.
 
 **Hand back.** A verdict (approve or changes required); findings with severity, file and line and the triggering input; the evidence you relied on and what you were not given.
 
