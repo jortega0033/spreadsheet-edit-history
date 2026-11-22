@@ -39,7 +39,7 @@ npx --yes @cobusgreyling/loop@0.2.0 doctor .
 npx --yes @cobusgreyling/loop@0.2.0 status .
 ```
 
-Results of these two commands in the preparation worktree are recorded here once they have been run against the committed loop files.
+Observed on 2026-11-22 in the preparation worktree with the loop files committed: `doctor` printed `Ready: 100/100 L3`, `Files: state=issue-triage-state.md LOOP.md=yes budget=yes run-log=yes gate=no` and `Status: HEALTHY (exit 0)`, with the note `Could not parse loop-sync JSON output`; `status` printed `Pattern: issue-triage`, `State: issue-triage-state.md · not yet run`, `constraints=yes`, and exited 0. The `L3` in that output is the scaffold's readiness score, not the operating level. `status` ends with "Next: Schedule a report-only first run"; in this repository that means one manual run as described above, not a scheduler.
 
 Doctor exit codes: 0 healthy, 1 warnings, 2 blocked. These two commands need Node and network access to npm. They are maintenance tools for the loop files, not part of the product, which stays offline and standard-library only.
 

@@ -44,6 +44,8 @@ python -m unittest discover -s tests -t .
 ## Planned scope
 Dependency evaluator and parser, append-only revisions with replay, branches for what-if views, cell-wise three-way merge, offline CSV import/export. See [docs/PRD.md](docs/PRD.md).
 
+Contributor and agent instructions are in [CLAUDE.md](CLAUDE.md); architecture notes and known differences between the PRD and the code are in [docs/architecture.md](docs/architecture.md).
+
 ## Baseline verification
 
 - Windows with Python 3.13.14 and Ubuntu 24.04 WSL with Python 3.12.3 each passed 94 unit and API tests. WSL unit tests used temporary storage on tmpfs.
