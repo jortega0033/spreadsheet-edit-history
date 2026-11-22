@@ -11,7 +11,7 @@ The Markdown files in `.claude/agents/` whose names start with `engineering-`, `
 
 ## Installed roles
 
-"Upstream SHA-256" is the hash of the file as fetched at the pinned revision (LF line endings, as stored in Git). Reviewer roles have one added frontmatter line, `tools: Read, Grep, Glob`, so they cannot edit files or run commands. Nothing else in any file was changed.
+"Upstream SHA-256" is the hash of the file as fetched at the pinned revision (LF line endings, as stored in Git). Reviewer roles have one added frontmatter line, `tools: Read, Grep, Glob`, so they cannot edit files or run commands. At the time of the copy nothing else in any file was changed; the later additions are listed under "Local change: automatic delegation" below.
 
 | File in `.claude/agents/` | `name:` | Upstream path | Upstream SHA-256 | Local change |
 |---|---|---|---|---|

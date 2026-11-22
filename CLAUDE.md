@@ -90,7 +90,7 @@ State what was not verified. A README or PRD claim that you did not reproduce is
 
 When asked to implement, continue or finish a GitHub issue, follow the playbook in [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md); it has the steps and the exact trigger of each role. Claude Code loads it on its own for ticket work, and `/implement-ticket <issue number>` starts it by hand. Delegate to the roles without waiting to be asked: each role's `description` ends with a "Use proactively ..." sentence, which is what makes Claude Code delegate.
 
-- **Before coding:** Codebase Onboarding Engineer (trace the code paths) and Software Architect (check the approach against [docs/architecture.md](docs/architecture.md)). Both are read-only.
+- **Before coding:** Codebase Onboarding Engineer when the ticket touches an unfamiliar area (trace the code paths), and Software Architect when it adds or changes a module boundary, data model, storage schema, public API or dependency (check the approach against [docs/architecture.md](docs/architecture.md)). Both are read-only.
 - **While coding:** Backend Architect for `sheet_history/*.py` and Frontend Developer for `sheet_history/static/`, which can edit; Database Optimizer, read-only, when SQL, the schema or a migration changes.
 - **After coding:** Application Security Engineer and Accessibility Auditor, read-only, and API Tester, which writes the HTTP-level tests in `tests/`, each when its trigger matches the change.
 - **Gates on every ticket, whatever its size:** Code Reviewer on the full diff (the review gate), then Reality Checker on the acceptance criteria and the evidence (the acceptance gate). A ticket is not done until both pass.

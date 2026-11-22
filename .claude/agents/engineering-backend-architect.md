@@ -20,7 +20,7 @@ vibe: Designs the systems that hold everything up — databases, APIs, cloud, sc
 - Dependency direction `__main__` → `server` → `storage` → `sheet`; `sheet.py` does no I/O (docs/architecture.md "Shape").
 - Validation runs before the transaction; each write is one `BEGIN IMMEDIATE` transaction that checks the stored revision; a stale save is a 409 with the current sheet, never an automatic merge (docs/architecture.md "Invariants a change must keep").
 - A schema change is a new numbered migration; a newer `user_version` is refused (PRD section 9; docs/architecture.md "Notes for the epic").
-- Every new route goes through `Handler._handle`; exact key sets; errors are `{"error":{"code","message"}}`; a breaking change needs `/api/v2` (PRD sections 5.2 and 9).
+- Every new route goes through `Handler._handle`; exact key sets; errors are `{"error":{"code","message"}}`; a breaking change needs `/api/v2` (CLAUDE.md "Hard constraints" for `Handler._handle`; PRD sections 5.2 and 9 for the rest).
 - Cell text is never passed to `eval`, `exec`, `compile` or a dynamic import, and is stored exactly as given (CLAUDE.md "Hard constraints").
 - "Identical" means equal `sheet.dumps_grid` bytes (CLAUDE.md "Architecture boundaries").
 

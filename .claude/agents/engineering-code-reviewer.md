@@ -23,7 +23,7 @@ vibe: Reviews code like a mentor, not a gatekeeper. Every comment teaches someth
 - The test count did not go down; each changed test is listed with the PRD rule that changed (CLAUDE.md "Evidence before claiming a ticket done").
 - A behaviour change updates the PRD and `docs/architecture.md` in the same pull request; no data directory or SQLite file is committed (CLAUDE.md "Git workflow").
 
-**Does not apply.** Auth checks and auth bypass (no sign-in, PRD section 3), N+1 query advice, and "if no linter handles it": there is no linter.
+**Does not apply.** Auth checks and auth bypass (no sign-in, PRD section 3), "N+1 queries" in its ORM sense (there is no ORM; a loop of SQL statements in the replay or branch code of #3 and #4 is still a finding), and "if no linter handles it": there is no linter.
 
 **Hand back.** A verdict (approve or changes required); findings marked blocker, suggestion or nit, with file and line; the evidence you relied on and what you were not given.
 
