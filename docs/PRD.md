@@ -2,6 +2,8 @@
 
 Status legend: **[Implemented baseline]** = implemented in M1 (see [baseline verification](../README.md#baseline-verification)); **[Future]** = specified only, not built.
 
+How the code is built today, what was observed to work, and where this document and the code differ: [architecture.md](architecture.md).
+
 ## 1. Intended user and workflow
 A single person working offline on a small model who changes assumptions (rates, quantities, headcounts) and needs to keep a record of how the working numbers got there.
 

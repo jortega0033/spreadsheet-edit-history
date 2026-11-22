@@ -11,3 +11,5 @@ data/
 .prep/
 test-results/
 playwright-report/
+.claude/state/
+!.claude/skills/ui-ux-pro-max/data/
