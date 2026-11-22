@@ -29,7 +29,7 @@ These come from [docs/PRD.md](docs/PRD.md) sections 3, 4, 5, 10 and 11. Several 
 - The server binds `127.0.0.1` only. Every new route goes through `Handler._handle` in `sheet_history/server.py`, so that the Host and Origin checks, the body cap and the response headers apply to it.
 - The Content-Security-Policy forbids inline script and inline style. UI code stays in `sheet_history/static/`. A new static file must be added to `STATIC_FILES` in `sheet_history/server.py`, or it is not served.
 - Write user text to the page with `textContent` or `.value`. Do not build HTML from strings; a test rejects `innerHTML` in `app.js`.
-- Cell text is data. Nothing a user types, imports or merges is ever passed to `eval`, `exec`, `compile` or a dynamic import. Formulas are evaluated only by the parser in `sheet_history/sheet.py`.
+- Cell text is data. Nothing a user types, imports or merges is ever passed to `eval`, `exec`, `compile` or a dynamic import. Formulas are evaluated only by the formula code of the grid-model layer: today that is one fixed pattern and `compute` in `sheet_history/sheet.py` (there is no parser yet); issue #2 replaces it with a hand-written parser in `sheet.py` or in a pure module next to it.
 - Cell text and titles are stored exactly as given: no trimming, no Unicode normalization.
 - Sample and fixture data are invented. Do not commit real user data or a data directory.
 
