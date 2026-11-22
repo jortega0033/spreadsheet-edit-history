@@ -61,11 +61,11 @@ Details and source citations are in [docs/architecture.md](docs/architecture.md)
 
 ## Git workflow
 
-Observed state at preparation time: `main` is the default branch with one commit, it is not protected, there is no CI and there are no contribution rules in the repository. The rules below are the working defaults until the owner replaces them.
+The rules below are the working defaults until the owner replaces them. CI exists now (see "Delivery workflow"); branch protection on `main` is set by the owner in GitHub settings.
 
 - Never commit to `main` directly. Branch from the tip of `origin/main`, one branch per ticket, named `<type>/<issue-number>-<short-slug>` (for example `feat/2-formula-evaluator`).
 - Keep commits small and use the existing subject style (`feat: ...`, `fix: ...`, `docs: ...`, `test: ...`, `chore: ...`).
-- Open a draft pull request that names the issue (`Part of epic #1`, `Closes #N`). The owner reviews and merges. Do not merge, force-push or rewrite published history.
+- Open a pull request that names the issue (`Part of epic #1`, `Closes #N`) as "Delivery workflow" says. The owner reviews and merges. Do not merge, force-push or rewrite published history.
 - Migrations are numbered in merge order. If another schema change was merged first, rebase and renumber yours before review.
 - Do not commit a data directory, a SQLite file, `__pycache__`, an exported CSV file or a browser report folder.
 - A change to behaviour updates the matching PRD section, the fixtures in PRD section 6, the acceptance matrix in PRD section 12 and `docs/architecture.md` in the same pull request.
@@ -80,7 +80,8 @@ Report only what you ran and saw. For each ticket, capture:
 4. For UI changes: the browser and its version, the steps performed, and what the page showed (status text, alert text, focused element, cell values). Say plainly if no browser run was done. Labels, keyboard operation and the status and alert regions are part of the acceptance criteria (PRD sections 5.4 and 7), not polish.
 5. For schema changes: a test or a run that opens a database created by the previous schema version with data in it and shows the data intact, including the revision numbers.
 6. For anything that claims byte-exact behaviour (replay, branch isolation, merge, CSV): the fixture, the seed if there is one, and the comparison that was made on canonical grid bytes.
-7. `git status --short` showing no stray files, and confirmation that every server and browser started for the check was stopped.
+7. For a pull request: the CI result from `gh pr checks`, green on the current commit. A ticket is not done on local results alone.
+8. `git status --short` showing no stray files, and confirmation that every server and browser started for the check was stopped.
 
 State what was not verified. A README or PRD claim that you did not reproduce is a claim, not evidence.
 
@@ -97,6 +98,21 @@ When asked to implement, continue or finish a GitHub issue, follow the playbook 
 - The seven read-only roles have `tools: Read, Grep, Glob` and cannot run commands. Give them the diff, the acceptance criteria and the recorded command output.
 - The session or role that wrote a change does not count as its reviewer.
 - In the pull request description, list the roles that ran and their verdicts under "Agent roles run".
+
+## Delivery workflow
+
+How a ticket gets from the queue to the owner. Each piece has one home; this part only links them.
+
+- **Start and driver.** Ticket work starts only when the owner starts it, with `/next-ticket` ([`.claude/skills/next-ticket/SKILL.md`](.claude/skills/next-ticket/SKILL.md)); it runs one ticket and there is no scheduler. The steps and roles are in the playbook [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md). Push the ticket branch and open the pull request only when the owner asked for it in the current session; a `/next-ticket` run counts as that request, for that run.
+- **Review gate hook.** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker have run after the last code edit. `ROLE_GATE=off` in the environment Claude Code is started from switches it off for that session; agents never do that.
+- **Permissions.** [`.claude/settings.json`](.claude/settings.json): documented commands are allowed; force pushes, pushes to `main`, merges, releases and reads of `.env` are denied; edits to `.github/`, `.claude/`, `CLAUDE.md`, `AGENTS.md` and the Loop files ask first.
+- **CI.** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs the test command and the hook self-test on Linux and Windows, Python 3.12 and 3.13. Every job must be green on the current commit before a pull request is marked ready.
+- **Pull request.** Use [`.github/pull_request_template.md`](.github/pull_request_template.md); tickets use [`.github/ISSUE_TEMPLATE/implementation-ticket.md`](.github/ISSUE_TEMPLATE/implementation-ticket.md).
+- **Labels.** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`; epic #1.
+- **Changelog.** Every ticket pull request adds one line under `Unreleased` in [CHANGELOG.md](CHANGELOG.md).
+- **UI and copy.** [docs/ui-quality.md](docs/ui-quality.md) lists ten binding UI rules; UI tickets start with the `ui-ux-pro-max` skill, and copy goes through `unslop`.
+- **Decisions.** [docs/owner-decisions.md](docs/owner-decisions.md) records what the owner decided and where it is implemented.
+- **Merging and releasing.** Only the owner merges and releases; see [SECURITY.md](SECURITY.md) and [docs/RELEASING.md](docs/RELEASING.md).
 
 ## Loop
 

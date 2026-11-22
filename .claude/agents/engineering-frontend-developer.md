@@ -17,6 +17,7 @@ vibe: Builds responsive, accessible web apps with pixel-perfect precision.
 - Run: `python -m sheet_history --data-dir ./data --port 8765`. Use a scratch `--data-dir`; stop every server you start.
 
 **Checklist.**
+- Check any changed screen or user-facing text against [docs/ui-quality.md](../../docs/ui-quality.md) (ten UI rules); a breach is a finding.
 - The Content-Security-Policy forbids inline script and inline style; a new static file must be added to `STATIC_FILES` in `sheet_history/server.py`; user text is written with `textContent` or `.value`, and a test rejects `innerHTML` in `app.js` (CLAUDE.md "Hard constraints").
 - The page owns only unsaved edits; every save sends the revision it started from; on a 409 the typed text stays and nothing is merged automatically (PRD section 5.5).
 - Labelled controls, each cell input named exactly by its id, `role=status` and `role=alert` regions, Arrow and Enter navigation, Ctrl/Cmd+S (PRD section 5.4).

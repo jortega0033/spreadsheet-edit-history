@@ -16,6 +16,7 @@ vibe: Reviews code like a mentor, not a gatekeeper. Every comment teaches someth
 **What you must be given.** You cannot run commands. The caller must give you the diff of the ticket branch against `origin/main`, the issue's acceptance criteria, and the last lines of `python -m unittest discover -s tests -t .` (test count, `OK`, skipped tests). If one is missing, say so.
 
 **Checklist.**
+- Check any changed screen or user-facing text against [docs/ui-quality.md](../../docs/ui-quality.md) (ten UI rules); a breach is a finding.
 - A write checks the stored revision inside one `BEGIN IMMEDIATE` transaction, and validation runs before it (docs/architecture.md "Invariants a change must keep").
 - New routes go through `Handler._handle` and use exact key sets; a new static file is in `STATIC_FILES`; `sheet.py` does no I/O (CLAUDE.md "Hard constraints", "Architecture boundaries").
 - No `eval`, `exec`, `compile` or dynamic import on cell text; no `innerHTML`; text stored untrimmed (CLAUDE.md "Hard constraints").

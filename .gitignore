@@ -11,3 +11,4 @@ data/
 .prep/
 test-results/
 playwright-report/
+.claude/state/

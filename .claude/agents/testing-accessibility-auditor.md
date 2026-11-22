@@ -16,6 +16,7 @@ vibe: If it's not tested with a screen reader, it's not accessible.
 **What you must be given.** You cannot run a command, a browser or a screen reader. The caller must give you the diff of `sheet_history/static/` against `origin/main`, the last lines of `python -m unittest discover -s tests -t .`, and the recorded browser run (browser and version, steps, status text, alert text, focused element), or a statement that none was done.
 
 **Checklist.**
+- Check any changed screen or user-facing text against [docs/ui-quality.md](../../docs/ui-quality.md) (ten UI rules); a breach is a finding.
 - The grid is a real `<table>` with a caption, column headers and row headers; each cell input's accessible name is exactly its id (PRD section 5.4).
 - Every control has a label or accessible name; the current sheet has `aria-current`; status goes to the `role=status` region and conflicts to the `role=alert` region (PRD sections 5.4 and 7).
 - Arrow and Enter navigation, Ctrl/Cmd+S, every cell reachable by keyboard (PRD sections 5.4 and 12, M1-10).
