@@ -75,13 +75,13 @@ Stale save, also traced: with the page at revision 3, a second writer saved B1 o
 | Contrast of 4.5:1, visible focus style, screen-reader announcements (PRD section 7) | Needs verification | read only; no measurement was made |
 | Unload warning, New sheet and Load sample buttons in a browser | Needs verification | read only (`app.js:217-236, 336-338`) |
 | Linux and Python 3.12 runs reported in the README | Needs verification | not repeated during preparation |
-| General formula parser and dependency evaluator (PRD P1) | Planned | `compute` handles one regex form (`sheet.py:15, 77-101`) |
-| Append-only revisions, replay, checkpoints (P2) | Planned | no revision table; `revision` is a counter |
-| Branches (P3), three-way merge (P4) | Planned | nothing in the code |
-| CSV import and export (P5) | Planned | nothing in the code; line breaks in cells are rejected today (`sheet.py:37`) |
-| Multiline editor and grids up to 200×26 (P6) | Planned | the grid size is hard-coded (see the invariants table) |
+| General formula parser and dependency evaluator (PRD P1, issue #2) | Planned | `compute` handles one regex form (`sheet.py:15, 77-101`) |
+| Append-only revisions, replay, checkpoints (P2, issue #3) | Planned | no revision table; `revision` is a counter |
+| Branches (P3, issue #4), three-way merge (P4, issue #5) | Planned | nothing in the code |
+| CSV import and export (P5, issue #6) | Planned | nothing in the code; line breaks in cells are rejected today (`sheet.py:37`) |
+| Multiline editor and grids up to 200×26 (P6, issue #7) | Planned | the grid size is hard-coded (see the invariants table) |
 
-The browser observations above came from a scripted run kept outside the repository. The repository itself has no browser test; PRD section 14 lists the browser checks as manual.
+The browser observations above came from a scripted run kept outside the repository. The repository itself has no browser test; PRD section 14 lists the browser checks as manual. Issue #8 plans a repeatable browser harness built on the standard library, and issue #9 plans one acceptance run over the whole epic; neither exists yet.
 
 ## Where the documents and the code differ
 
@@ -94,18 +94,18 @@ The browser observations above came from a scripted run kept outside the reposit
 | 5 | PRD section 5.2 lists "other codes" 403, 405, 413, 415, 500 | The server also answers 411 with code `invalid` when `Content-Length` is missing or `Transfer-Encoding` is present (`server.py:215-219`) | Small omission in the PRD. |
 | 6 | PRD section 10: "Origin checked on POST/PUT" | The check applies only when an Origin header is present (`server.py:158-163`); a request without one is accepted | By design for non-browser clients on loopback; stated here so a reviewer does not assume more. |
 | 7 | PRD section 4 and the README: "Python 3.12" | Observed on Python 3.13.14 (Windows). The README reports Python 3.12.3 on WSL, which was not repeated | Read the requirement as "3.12 or newer". |
-| 8 | PRD section 14: browser checks are manual only; the README says Chrome 157 verified the main workflow | No script or recorded result is in the repository | The claim is not reproducible from the repository alone. |
+| 8 | PRD section 14: browser checks are manual only; the README says Chrome 157 verified the main workflow | No script or recorded result is in the repository | The claim is not reproducible from the repository alone. Issue #8 plans the harness that would make it reproducible. |
 | 9 | PRD section 5.1: cell input is 0 to 200 code points | The server counts code points (`sheet.py:33`); the page sets `maxLength = 200` on each input (`app.js:264`), which browsers count in UTF-16 code units | read only. A cell of characters outside the Basic Multilingual Plane is cut off earlier in the page than the server requires. |
 | 10 | README "Run" shows `--port 8765` as part of the command | `--port` is optional and defaults to 8765; port 0 is accepted and binds a free port (`__main__.py:16-29`) | No conflict; noted for scripts. |
 
 ## Notes for the epic (issue #1)
 
-These follow from the code above and are repeated in the tickets that they affect.
+These follow from the code above and are repeated in the tickets that they affect. The tickets are the sub-issues of #1, in dependency order: #8, #2, #3, #4, #6, #5, #7, #9.
 
-- **Schema version.** `_init_db` only knows "create version 1" (`storage.py:93-97`). The first schema change needs an ordered list of migrations that runs inside one `BEGIN IMMEDIATE` transaction. On SQLite 3.50.4 a `PRAGMA user_version` change made inside a transaction was rolled back with it (ran in a scratch check), so a failed migration can leave the version untouched. A database written by a newer schema cannot be opened by older code; that rule stays.
-- **Whole-grid saves.** The page sends every non-empty cell on each save and the body cap is 65536 bytes. That is enough for 48 cells of 200 characters. It is not enough for a 200×26 grid, so the large-grid ticket has to change how the page saves.
-- **Exact key sets.** `_create` and `_put` reject unknown keys (`server.py:196, 202`). New inputs go to new routes or to query parameters. The query string is ignored today (`server.py:147`); the first ticket that needs parameters has to add strict parsing.
-- **Computed values on read.** `compute` runs on every sheet read and on the `current` sheet inside a 409. An evaluator must bound its output: at 600 digits of precision `1/3` formats to 602 characters, and twelve squarings of a 200-digit number format to more than 800 000 characters before the thirteenth overflows (ran in a scratch check).
-- **Line breaks.** `<input type="text">` removes line breaks from any value assigned to it. The page keeps the real text in `local`, and `payload()` sends `local`, not the input values (`app.js:71-76, 176-180`), so an unedited multiline cell would survive a save, while an edited one would not.
+- **Schema version (issue #3 first, then #4 and #7).** `_init_db` only knows "create version 1" (`storage.py:93-97`). The first schema change needs an ordered list of migrations that runs inside one `BEGIN IMMEDIATE` transaction. On SQLite 3.50.4 a `PRAGMA user_version` change made inside a transaction was rolled back with it (ran in a scratch check), so a failed migration can leave the version untouched. A database written by a newer schema cannot be opened by older code; that rule stays.
+- **Whole-grid saves (issue #7).** The page sends every non-empty cell on each save and the body cap is 65536 bytes. That is enough for 48 cells of 200 characters. It is not enough for a 200×26 grid, so the large-grid ticket has to change how the page saves.
+- **Exact key sets (issue #3).** `_create` and `_put` reject unknown keys (`server.py:196, 202`). New inputs go to new routes or to query parameters. The query string is ignored today (`server.py:147`); the first ticket that needs parameters has to add strict parsing.
+- **Computed values on read (issue #2).** `compute` runs on every sheet read and on the `current` sheet inside a 409. An evaluator must bound its output: at 600 digits of precision `1/3` formats to 602 characters, and twelve squarings of a 200-digit number format to more than 800 000 characters before the thirteenth overflows (ran in a scratch check).
+- **Line breaks (issues #6 and #7).** `<input type="text">` removes line breaks from any value assigned to it. The page keeps the real text in `local`, and `payload()` sends `local`, not the input values (`app.js:71-76, 176-180`), so an unedited multiline cell would survive a save, while an edited one would not.
 - **Static allowlist and CSP.** A new script or style file must be added to `STATIC_FILES`. Inline script and inline style are blocked by the policy.
 - **Stopping a server on Windows.** The listener uses `SO_EXCLUSIVEADDRUSE` (`server.py:283-292`). After stopping a server, check that the port has no listener; stop a leftover process by its PID.

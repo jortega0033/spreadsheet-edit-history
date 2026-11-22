@@ -39,7 +39,7 @@ These come from [docs/PRD.md](docs/PRD.md) sections 3, 4, 5, 10 and 11. Several 
 |---|---|
 | What the product is, limits, the HTTP API, fixtures, the acceptance matrix, the future milestones P1 to P6 and the open choices | [docs/PRD.md](docs/PRD.md) |
 | How the code is layered, the traced save workflow, invariants, what is implemented, planned or unverified, and where the PRD and the code differ | [docs/architecture.md](docs/architecture.md) |
-| What to build next and in which order | Epic issue #1 on GitHub and its sub-issues, in the dependency order given in the epic body |
+| What to build next and in which order | Epic issue #1 on GitHub and its eight sub-issues, in the dependency order given in the epic body: #8 (browser checks), #2 (formulas), #3 (revision log), #4 (branches), #6 (CSV), #5 (merge), #7 (multiline editor and large grid), #9 (epic acceptance run). #8, #2 and #3 depend on no other ticket and can start in parallel; #8 first needs owner decision D1, which is listed in the epic. |
 | What was reported to work at baseline, and on which platforms | [README.md](README.md), "Baseline verification" |
 
 Code and tests show what the product does. The PRD says what it should do. When they disagree, do not pick one silently: add a row to the drift table in `docs/architecture.md` and raise it in the ticket.
