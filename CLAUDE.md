@@ -14,7 +14,7 @@ Both commands were run on 2026-11-22 on Windows 11 with Python 3.13.14, from the
 - There is no install step. Python 3.12 or newer is the only requirement. On Windows the interpreter is `python`; on Linux use `python3`.
 - Keep `-t .` in the test command: the test modules import `tests.support`.
 - `--data-dir` is required. `--port` defaults to 8765; the tests use port 0 through `make_server`.
-- There is no lint, format, type-check or build command, and no CI workflow. Do not claim that any of these passed.
+- There is no lint, format, type-check or build command. CI runs the test command and the hook self-test (see Delivery workflow). Do not claim that lint, format, type-check or build passed.
 - The Linux and Python 3.12 runs reported in the README were not repeated during preparation.
 - Stop every server you start, then check that its port has no listener. On Windows, `kill` from Git Bash can leave the Python process running; stop it by PID (`taskkill //PID <pid> //F`). Stop only processes you started.
 - `data/`, `*.sqlite*` and `*.db` are ignored by Git. Use a scratch `--data-dir` for experiments.
@@ -39,7 +39,7 @@ These come from [docs/PRD.md](docs/PRD.md) sections 3, 4, 5, 10 and 11. Several 
 |---|---|
 | What the product is, limits, the HTTP API, fixtures, the acceptance matrix, the future milestones P1 to P6 and the open choices | [docs/PRD.md](docs/PRD.md) |
 | How the code is layered, the traced save workflow, invariants, what is implemented, planned or unverified, and where the PRD and the code differ | [docs/architecture.md](docs/architecture.md) |
-| What to build next and in which order | Epic issue #1 on GitHub and its eight sub-issues, in the dependency order given in the epic body: #8 (browser checks), #2 (formulas), #3 (revision log), #4 (branches), #6 (CSV), #5 (merge), #7 (multiline editor and large grid), #9 (epic acceptance run). #8, #2 and #3 depend on no other ticket and can start in parallel; #8 first needs owner decision D1, which is listed in the epic. |
+| What to build next and in which order | Epic issue #1 on GitHub and its eight sub-issues, in the dependency order given in the epic body: #8 (browser checks), #2 (formulas), #3 (revision log), #4 (branches), #6 (CSV), #5 (merge), #7 (multiline editor and large grid), #9 (epic acceptance run). #8, #2 and #3 depend on no other ticket and can start in parallel; owner decision D1 for #8 is settled conservatively (no installed browser; write the manual procedure and flag it in #8; see `docs/owner-decisions.md` entry 10), so #8 is not blocked by it. |
 | What was reported to work at baseline, and on which platforms | [README.md](README.md), "Baseline verification" |
 
 Code and tests show what the product does. The PRD says what it should do. When they disagree, do not pick one silently: add a row to the drift table in `docs/architecture.md` and raise it in the ticket.
@@ -65,7 +65,7 @@ The rules below are the working defaults until the owner replaces them. CI exist
 
 - Never commit to `main` directly. Branch from the tip of `origin/main`, one branch per ticket, named `<type>/<issue-number>-<short-slug>` (for example `feat/2-formula-evaluator`).
 - Keep commits small and use the existing subject style (`feat: ...`, `fix: ...`, `docs: ...`, `test: ...`, `chore: ...`).
-- Open a pull request that names the issue (`Part of epic #1`, `Closes #N`) as "Delivery workflow" says. The owner reviews and merges. Do not merge, force-push or rewrite published history.
+- Open a draft pull request that names the issue (`Part of epic #1`, `Closes #N`) as "Delivery workflow" says. The owner reviews and merges. Do not merge, force-push or rewrite published history.
 - Migrations are numbered in merge order. If another schema change was merged first, rebase and renumber yours before review.
 - Do not commit a data directory, a SQLite file, `__pycache__`, an exported CSV file or a browser report folder.
 - A change to behaviour updates the matching PRD section, the fixtures in PRD section 6, the acceptance matrix in PRD section 12 and `docs/architecture.md` in the same pull request.

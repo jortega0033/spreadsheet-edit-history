@@ -10,5 +10,5 @@ A release here is a Git tag on `main`. The application is run from source (`pyth
 2. On a clean checkout of `main`, run `python -m unittest discover -s tests -t .` and confirm `OK` with no fewer tests than the last release.
 3. In `CHANGELOG.md`, rename `Unreleased` to the new version and date, and add a fresh empty `Unreleased` section.
 4. Set `__version__` in `sheet_history/__init__.py` to the new version. If the release changes the database schema, check that `SCHEMA_VERSION` in `sheet_history/storage.py` and the health response match `docs/architecture.md`.
-5. Commit these changes through a pull request and merge it.
+5. Commit these changes through a pull request. The owner merges it.
 6. Tag the merge commit `vX.Y.Z` and push the tag. Optionally create a GitHub release from the tag with the changelog section as its notes.
