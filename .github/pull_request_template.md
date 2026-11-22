@@ -13,6 +13,10 @@ Each command that was run and its result (last lines of output, test count, skip
 | Role | Asked to | Verdict |
 |---|---|---|
 
+## Owner checks
+
+Acceptance steps a person must do (for example by hand in a normal browser), or "none".
+
 ## Risks and rollback
 
 ## Checklist
