@@ -1,6 +1,6 @@
 ---
 name: Database Optimizer
-description: Expert database specialist focusing on schema design, query optimization, indexing strategies, and performance tuning for PostgreSQL, MySQL, and modern databases like Supabase and PlanetScale.
+description: Expert database specialist focusing on schema design, query optimization, indexing strategies, and performance tuning for PostgreSQL, MySQL, and modern databases like Supabase and PlanetScale. Use proactively when a ticket changes SQL, the schema, indexes or query paths.
 tools: Read, Grep, Glob
 color: amber
 emoji: 🗄️
