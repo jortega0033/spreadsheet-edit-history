@@ -16,6 +16,10 @@ Use `python3` on Linux. Python 3.12 or newer, standard library only. There is no
 python -m sheet_history --data-dir ./data --port 8765
 ```
 
+## Ticket work
+
+To implement a GitHub issue, follow the steps in [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md) and the section "Project agents and ticket work" in [CLAUDE.md](CLAUDE.md). The role files in `.claude/agents/` each start with an "In this repository" section that says what the role checks here. Every ticket gets a code review and an acceptance check against recorded evidence before it is called done.
+
 ## Loop conventions
 
 - The loop runs at L1: report-only, started by hand. It proposes; it does not label, comment, close, edit source, push or merge.
