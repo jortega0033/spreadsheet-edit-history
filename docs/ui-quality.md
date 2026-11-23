@@ -22,4 +22,5 @@ Binding for every change to `sheet_history/static/` and to user-facing text. Rul
 - Enforcement is by that review gate, not by a script. Rule 1 can be linted; rule 2 cannot be detected reliably from CSS.
 - This repository's UI also has hard limits that these rules never override: no inline style or script, no external request, system fonts, visible focus, contrast of at least 4.5:1 (see [../CLAUDE.md](../CLAUDE.md) and PRD section 7).
 - Existing breaches are tracked in one implementation ticket, not fixed ad hoc.
+- Rule 8 is read with the Rules section of [design-tokens.md](design-tokens.md) and owner decision 14 in [owner-decisions.md](owner-decisions.md): the accent also marks the current step, and `--focus` is a focus indicator, exempt from the accent limit.
 - Colours come from the Pipenzo tokens in [design-tokens.md](design-tokens.md); new UI adds no colour literals.

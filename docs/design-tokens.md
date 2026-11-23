@@ -4,7 +4,7 @@ The UI uses the Pipenzo "Flow look" tokens: black page, Flow-style alpha layers,
 
 ## Source
 
-`sheet_history/static/tokens.css` is a byte-for-byte copy of `extension/sidepanel/tokens.css` in `jortega0033/clip-to-reel-studio` at commit `a13378ce73e5b27213c9a200fc960ec93afef054` (2026-11-21). Its header comment holds the contrast numbers and a yellow rule that is narrower than the rules below (it lists yellow on the primary button, the current-step node and a few small marks, and does not list the current selection). The copy must stay identical to the source, so the comment is not edited here. Where the comment and this document differ, this document takes precedence.
+`sheet_history/static/tokens.css` is a byte-for-byte copy of `extension/sidepanel/tokens.css` in `jortega0033/clip-to-reel-studio` at commit `a13378ce73e5b27213c9a200fc960ec93afef054` (2026-11-21). Its header comment holds the contrast numbers and a yellow rule that is narrower than the rules below (it lists yellow on the primary button, the current-step node and a few small marks, and does not list the current selection). The copy must stay identical to the source, so the comment is not edited here. Where a comment in `tokens.css` (header or inline) and this document differ, this document takes precedence.
 
 ## Resync
 
@@ -20,6 +20,7 @@ Copy the file over `sheet_history/static/tokens.css`. Nothing else. Do not edit 
 - Status: `--ok`, `--ok-bg`, `--warn-fg`, `--warn-bg`, `--danger`, `--danger-bg`, `--success`, `--info`
 - Focus: `--focus`
 - Alpha layers: `--glass*`, `--scrim`, `--state-hover`, `--state-selected`, `--btn-secondary*`
+- `--state-selected` does not mark the current selection in this UI; that is a solid `--primary` fill.
 - Shadows, type, space, radius, motion: `--shadow-*`, `--font*`, `--space-*`, `--radius-*`, `--dur-*`, `--ease-*`
 
 ## Rules
