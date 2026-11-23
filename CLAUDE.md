@@ -110,7 +110,7 @@ How a ticket gets from the queue to the owner. Each piece has one home; this par
 - **Pull request.** Use [`.github/pull_request_template.md`](.github/pull_request_template.md); tickets use [`.github/ISSUE_TEMPLATE/implementation-ticket.md`](.github/ISSUE_TEMPLATE/implementation-ticket.md).
 - **Labels.** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`; epic #1.
 - **Changelog.** Every ticket pull request adds one line under `Unreleased` in [CHANGELOG.md](CHANGELOG.md).
-- **UI and copy.** [docs/ui-quality.md](docs/ui-quality.md) lists ten binding UI rules; UI tickets start with the `ui-ux-pro-max` skill, and copy goes through `unslop`.
+- **UI and copy.** [docs/ui-quality.md](docs/ui-quality.md) lists ten binding UI rules; UI tickets start with the `ui-ux-pro-max` skill, and copy goes through `unslop`. Colours come from the tokens in [docs/design-tokens.md](docs/design-tokens.md); add no colour literals.
 - **Decisions.** [docs/owner-decisions.md](docs/owner-decisions.md) records what the owner decided and where it is implemented.
 - **Merging and releasing.** Only the owner merges and releases; see [SECURITY.md](SECURITY.md) and [docs/RELEASING.md](docs/RELEASING.md).
 

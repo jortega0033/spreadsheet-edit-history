@@ -425,7 +425,7 @@ class StaticTests(ServerTestCase):
                 self.assertNotIn(b"make_server", resp.body)
 
     def test_allowlisted_static_files_when_present(self):
-        for path, ctype in (("/static/app.css", "text/css"), ("/static/app.js", "javascript")):
+        for path, ctype in (("/static/tokens.css", "text/css"), ("/static/app.css", "text/css"), ("/static/app.js", "javascript")):
             with self.subTest(path=path):
                 resp = self.request("GET", path)
                 self.assertEqual(resp.status, 200)

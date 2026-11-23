@@ -41,7 +41,7 @@ Errors are `{"error":{"code","message"}}`.
 | Request | Success | Errors |
 |---|---|---|
 | `GET /` | HTML page | |
-| `GET /static/app.css`, `/static/app.js` | assets | other paths 404 |
+| `GET /static/tokens.css`, `/static/app.css`, `/static/app.js` | assets | other paths 404 |
 | `GET /api/v1/health` | 200 `{"status":"ok","schema":1}` | |
 | `GET /api/v1/sheets` | 200 `{"sheets":[{id,title,revision,updated_at}]}` | |
 | `POST /api/v1/sheets` `{"title"}` | 201 sheet | 400, 422 `limit_reached` (50 sheets) |
@@ -84,7 +84,7 @@ At 800×600 and 360 px wide there is no body horizontal overflow (the grid wrapp
 API prefix `/api/v1`; schema version in `PRAGMA user_version` with ordered, deterministic migrations; breaking API changes require `/api/v2`.
 
 ## 10. Security and validation
-Loopback bind only; Host must be loopback on the server's port; Origin checked on POST/PUT; no CORS; CSP with `script-src 'self'`; `nosniff`, `no-store`; static files only from a three-path allowlist; request bodies capped; shapes, lengths and cell ids validated; SQL always parameterized; no `eval` of any input; 10 s socket timeout.
+Loopback bind only; Host must be loopback on the server's port; Origin checked on POST/PUT; no CORS; CSP with `script-src 'self'`; `nosniff`, `no-store`; static files only from a four-path allowlist; request bodies capped; shapes, lengths and cell ids validated; SQL always parameterized; no `eval` of any input; 10 s socket timeout.
 
 ## 11. Future work (one epic)
 **Epic: Auditable assumption changes in a single-person offline spreadsheet.** Machine-readable copy: `.prep/backlog.json`.
