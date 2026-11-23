@@ -16,6 +16,7 @@ Dated record of the decisions the owner made for this repository, so the rules d
 | 10 | 2026-11-22 | Open decisions on tickets are settled with the ticket's stated default; where a ticket states none, the conservative option is taken and flagged in the issue. Listed below. | Epic #1 "Owner decisions" and the tickets named below |
 | 11 | 2026-11-22 | Rust is verified in CI only. Not applicable: this repository has no Rust. | not applicable |
 | 12 | 2026-11-22 | The ten UI rules in `docs/ui-quality.md` are binding, and the `ui-ux-pro-max` and `unslop` skills are installed in the repository and used for UI work and for copy. | `docs/ui-quality.md`, `.claude/skills/ui-ux-pro-max/`, `.claude/skills/unslop/`, `.claude/skills/implement-ticket/SKILL.md` |
+| 13 | 2026-11-23 | Visual system: Pipenzo Flow look tokens (docs/design-tokens.md). SDLC kit version: jortega0033/sdlc-kit v1.0.0. | `docs/design-tokens.md`, `sheet_history/static/tokens.css` |
 
 ## Entry 10: open decisions settled by the ticket default
 
