@@ -18,7 +18,7 @@ One Python package, standard library only, in three layers plus a static page. T
 | HTTP adapter | `sheet_history/server.py` | request guards, routing, JSON envelope, static allowlist | `sheet`, `storage` |
 | Persistence | `sheet_history/storage.py` | SQLite file, schema version, transactions, the revision check | `sheet` |
 | Grid model | `sheet_history/sheet.py` | validation, canonical grid, formula evaluation; no I/O | nothing |
-| Browser page | `sheet_history/static/index.html`, `app.js`, `app.css` | rendering, unsaved edits, keyboard handling | talks to the API only |
+| Browser page | `sheet_history/static/index.html`, `tokens.css`, `app.js`, `app.css` | rendering, unsaved edits, keyboard handling | talks to the API only |
 
 The dependency direction is `__main__` → `server` → `storage` → `sheet`. `sheet.py` imports only `json`, `re` and `decimal`.
 
@@ -26,7 +26,7 @@ The dependency direction is `__main__` → `server` → `storage` → `sheet`. `
 
 1. **Start.** `main()` parses `--data-dir` (required) and `--port` (default 8765, 0 to 65535) (`__main__.py:26-33`) and calls `make_server` (`server.py:295-302`). `make_server` opens `Storage`, binds `127.0.0.1`, and records the two accepted Host values, `127.0.0.1:<port>` and `localhost:<port>`. A storage error exits with code 2 and a bind error with code 1 (`__main__.py:37-46`). *ran: a file as data directory gave exit 2; a port already in use gave exit 1.*
 2. **Open the database.** `Storage.__init__` creates the directory and calls `_init_db` (`storage.py:49-63, 89-97`): refuse a newer `PRAGMA user_version`, switch to WAL, then create the `sheets` table and set `user_version=1` inside one `BEGIN IMMEDIATE` transaction.
-3. **Load the page.** `GET /`, `/static/app.css` and `/static/app.js` are the only static paths (`server.py:21-25, 183-189`). `app.js` builds the 8×6 table (`app.js:239-281`), fetches `GET /api/v1/sheets`, and opens the sheet id remembered in `localStorage` under `sheet_history.last`, or the first sheet (`app.js:341-350`). *ran in headless Chrome 157: 48 inputs, status `Opened "Budget" at revision 2`, C1 showed `7`; the browser requested only the five local URLs.*
+3. **Load the page.** `GET /`, `/static/tokens.css`, `/static/app.css` and `/static/app.js` are the only static paths (`server.py:21-26, 184-190`). `app.js` builds the 8×6 table (`app.js:239-281`), fetches `GET /api/v1/sheets`, and opens the sheet id remembered in `localStorage` under `sheet_history.last`, or the first sheet (`app.js:341-350`). *ran in headless Chrome 157: 48 inputs, status `Opened "Budget" at revision 2`, C1 showed `7`; the browser requested only the five local URLs. That run predates `tokens.css`; the page now also requests `/static/tokens.css`, a sixth local URL, which the unit test `test_allowlisted_static_files_when_present` and a loopback curl cover (200).*
 4. **Edit.** Typing fires `onCellInput`, which stores the text in the in-memory `local` map and marks the cell dirty (`app.js:283-287, 46-53`). Nothing is sent yet.
 5. **Save.** The Save button or Ctrl/Cmd+S calls `save()` → `doSave(sheet.revision)` (`app.js:208-215, 182-206, 330-335`), which sends `PUT /api/v1/sheets/{id}` with exactly `{base_revision, title, cells}`; `cells` holds every non-empty cell of the grid (`app.js:176-180`).
 6. **Guards.** `Handler._handle` checks that exactly one Host header is present and allowed, resolves the route, answers 405 for a wrong method, and on POST and PUT rejects an Origin header that is not one of the two loopback origins (`server.py:142-164`). `_read_json_object` requires `application/json`, a numeric `Content-Length`, at most 65536 bytes, valid UTF-8 JSON and an object (`server.py:211-235`). `_put` requires exactly the three keys and an integer `base_revision` (`server.py:200-208`).
@@ -55,7 +55,7 @@ Stale save, also traced: with the page at revision 3, a second writer saved B1 o
 | A database with a newer `user_version` is refused before anything is changed | `storage.py:91, 99-107` | `test_newer_schema_refused` |
 | Loopback bind; exactly one allowed Host header on every request; Origin checked on POST and PUT when present; no CORS headers | `server.py:17, 142-164, 295-302` | `HeaderAndRequestGuardTests` |
 | Every response carries the CSP (`script-src 'self'`, `style-src 'self'`), `nosniff`, `no-store`, `no-referrer` and `Connection: close` | `server.py:27-37, 258-270` | `test_security_headers_on_all_response_kinds` |
-| Static files come from an exact three-entry map; any other path is 404 | `server.py:21-25, 166-168` | `StaticTests` |
+| Static files come from an exact four-entry map; any other path is 404 | `server.py:21-26, 167-168` | `StaticTests` |
 | JSON bodies only, at most 65536 bytes, exact key sets | `server.py:15, 194-235` | `ValidationTests`, `CapTests` |
 | At most 50 sheets | `storage.py:11, 148-150` | `test_fifty_sheet_limit` |
 | The page writes user text with `textContent` and `.value` only | `app.js` | `test_app_js_avoids_innerhtml` |
